@@ -13,9 +13,9 @@ fetch('template.html')
 
 const defaultDSL = `
 // Global Directives
-.title: Feature Showcase & Integration Testing Guide
+.title: Complete Feature & Testing Overview
 
-// Banner / Header Image Block
+// Banner / Image Block / Poster Block
 img {
   https://picsum.photos/600/250
 }
@@ -25,12 +25,12 @@ img {
 
 // Introductory Paragraph with Inline Formatting
 p {
-  Welcome to the **Email Builder DSL** test template! This script is designed as a *comprehensive boilerplate* to demonstrate every block type, modifier property, and text formatting option supported by the compiler.
+  Welcome to the **Anvesha Email Builder DSL** “*Srijana*” test template! You can use this example to explore all supported block types, properties, and formatting options in one place.
 }
 .color: #2c3e50
 .font-size: 16px
 .line-height: 1.6
-.align: left
+.align: justify
 .margin: 15px 0
 
 // Horizontal Divider (Dashed)
@@ -42,9 +42,9 @@ div {}
 list {
   * **Global Directives:** Title assignment via .title: directive
   * **Inline Formatting:** Supports **bold**, *italics*, and smart hyperlinking
-  * **Auto-prefixed Link:** Visit [IISER TVM CMIT](cmit.iisertvm.ac.in) for details
+  * **Auto-prefixed Link:** Visit [Srijana Github Repository](https://github.com/PragunNepal/Srijana) for details
   * **Explicit Web Link:** Check [Google](https://www.google.com) safely
-  * **Email Link Scheme:** Contact [Support Team](mailto:support@example.com) directly
+  * **Email Link Scheme:** Contact [STC](mailto:stc@iisertvm.ac.in) for any queries
 }
 .padding: 10px 0 10px 20px
 .margin: 10px 0
@@ -97,7 +97,7 @@ ul {
 
 // Closing Paragraph
 p {
-  For more information or inquiries, feel free to reach out to the [CMIT Website Team](mailto:mathsclub@iisertvm.ac.in).
+  For more information or inquiries, feel free to reach out to the [Srijana Team](mailto:pragun23@iisertvm.ac.in) or the [Science & Technology Council of IISER Thiruvananthapuram](mailto:stc@iisertvm.ac.in).
 }
 .align: center
 .color: #888888
