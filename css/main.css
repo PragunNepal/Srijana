@@ -74,9 +74,9 @@ body.mailgen-page {
   cursor: pointer;
   box-sizing: border-box;
 
-  background-color: var(--moss);
+  background-color: var(--moss-deep);
   border-color: var(--moss);
-  color: #fff;
+  color: var(--moss-deep);
 }
 
 .ux-icon {
