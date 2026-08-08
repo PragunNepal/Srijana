@@ -1,6 +1,6 @@
 let templateHTML = '';
 
-fetch('./template.html')
+fetch('template.html')
   .then(response => {
     if (!response.ok) throw new Error('Failed to load template.html');
     return response.text();
