@@ -27,7 +27,6 @@ img {
 p {
   Welcome to the **Anvesha Email Builder DSL** “*Srijana*” test template! You can use this example to explore all supported block types, properties, and formatting options in one place.
 }
-.color: #2c3e50
 .font-size: 16px
 .line-height: 1.6
 .align: justify
@@ -48,7 +47,6 @@ list {
 }
 .padding: 10px 0 10px 20px
 .margin: 10px 0
-.color: #34495e
 .font-size: 15px
 .line-height: 1.5
 
@@ -67,7 +65,6 @@ ol {
 .padding: 5px 0 5px 20px
 .margin: 15px 0
 .font-size: 14px
-.color: #27ae60
 
 // Paragraph Block with Preserved Formatting (.pre: true)
 p {
