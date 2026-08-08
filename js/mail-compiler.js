@@ -123,7 +123,7 @@ function compileEmailTemplate(dslInput) {
   if (!templateHTML) return 'Loading template...';
 
   const lines = dslInput.split("\n");
-  let title = "CMIT Announcement";
+  let title = "Anvesha Announcement";
   let blocks = [];
   let currentBlock = null;
 
