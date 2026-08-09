@@ -1,15 +1,15 @@
-let templateHTML = '';
+let templateHTML = "";
 
-fetch('template.html')
-  .then(response => {
-    if (!response.ok) throw new Error('Failed to load template.html');
+fetch("template.html")
+  .then((response) => {
+    if (!response.ok) throw new Error("Failed to load template.html");
     return response.text();
   })
-  .then(data => {
+  .then((data) => {
     templateHTML = data;
     updateOutput();
   })
-  .catch(err => console.error('Error loading template:', err));
+  .catch((err) => console.error("Error loading template:", err));
 
 const defaultDSL = `
 // Global Directives
@@ -22,6 +22,18 @@ img {
 .width: 100%
 .align: center
 .alt: Feature Showcase Header Banner
+
+// Button Block (Call-to-Action)
+btn {
+  Click Here!
+}
+.url: google.com
+.bg-color: #5E7B9A
+.color: #ffffff
+.padding: 15px
+.align: center
+.border-radius: 50px
+.margin: 50px 0
 
 // Introductory Paragraph with Inline Formatting
 p {
@@ -113,14 +125,14 @@ function parseInlineMarkdown(text) {
     .replace(/\[(.*?)\]\((.*?)\)/g, (match, label, url) => {
       let cleanUrl = url.trim();
       if (!/^https?:\/\//i.test(cleanUrl) && !/^mailto:/i.test(cleanUrl)) {
-        cleanUrl = 'https://' + cleanUrl;
+        cleanUrl = "https://" + cleanUrl;
       }
       return `<a href="${cleanUrl}" target="_blank" style="color: #0066cc; text-decoration: underline;">${label}</a>`;
     });
 }
 
 function compileEmailTemplate(dslInput) {
-  if (!templateHTML) return 'Loading template...';
+  if (!templateHTML) return "Loading template...";
 
   const lines = dslInput.split("\n");
   let title = "Anvesha Announcement";
@@ -200,7 +212,8 @@ function renderBlock(block) {
   if (props["margin"]) styleRules.push(`margin: ${props["margin"]};`);
   if (props["padding"]) styleRules.push(`padding: ${props["padding"]};`);
   if (props["font-size"]) styleRules.push(`font-size: ${props["font-size"]};`);
-  if (props["line-height"]) styleRules.push(`line-height: ${props["line-height"]};`);
+  if (props["line-height"])
+    styleRules.push(`line-height: ${props["line-height"]};`);
   if (props["color"]) styleRules.push(`color: ${props["color"]};`);
 
   let rawBodyText =
@@ -219,7 +232,12 @@ function renderBlock(block) {
         imgUrl = "https://" + imgUrl;
       }
 
-      const imgStyleRules = ["display: block;", "max-width: 100%;", "height: auto;", "border: 0;"];
+      const imgStyleRules = [
+        "display: block;",
+        "max-width: 100%;",
+        "height: auto;",
+        "border: 0;",
+      ];
 
       if (props["align"] === "center") {
         imgStyleRules.push("margin-left: auto;", "margin-right: auto;");
@@ -265,7 +283,9 @@ function renderBlock(block) {
 
       const listItems = block.bodyLines
         .map((l) => l.trim())
-        .filter((l) => l.startsWith("*") || l.startsWith("-") || /^\d+\./.test(l))
+        .filter(
+          (l) => l.startsWith("*") || l.startsWith("-") || /^\d+\./.test(l),
+        )
         .map((l) => {
           let prefix = "";
           let itemContent = l;
@@ -289,12 +309,53 @@ function renderBlock(block) {
         })
         .join("\n");
 
-      const attr = styleRules.length > 0 ? ` style="${styleRules.join(" ")}"` : "";
+      const attr =
+        styleRules.length > 0 ? ` style="${styleRules.join(" ")}"` : "";
       return `<ul${attr}>\n${listItems}\n</ul>`;
     }
 
+    case "btn":
+    case "button": {
+      const buttonText = parseInlineMarkdown(rawBodyText.trim());
+      let buttonUrl = props["url"] || props["href"] || "#";
+
+      if (
+        buttonUrl &&
+        !/^https?:\/\//i.test(buttonUrl) &&
+        !/^mailto:/i.test(buttonUrl)
+      ) {
+        buttonUrl = "https://" + buttonUrl;
+      }
+
+      const bgColor = props["bg-color"] || props["background"] || "#0066cc";
+      const textColor = props["color"] || "#ffffff";
+      const borderRadius = props["border-radius"] || "4px";
+      const fontSize = props["font-size"] || "15px";
+      const padding = props["padding"] || "12px 24px";
+      const alignment = props["align"] || "center";
+      const margin = props["margin"] || "20px 0";
+
+      return `
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: ${margin};">
+  <tr>
+    <td align="${alignment}">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;">
+        <tr>
+          <td align="center" bgcolor="${bgColor}" style="border-radius: ${borderRadius}; background-color: ${bgColor};">
+            <a href="${buttonUrl}" target="_blank" style="display: inline-block; padding: ${padding}; font-size: ${fontSize}; color: ${textColor}; text-decoration: none; font-weight: bold; border-radius: ${borderRadius}; border: 1px solid ${bgColor};">
+              ${buttonText}
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`.trim();
+    }
+
     default: {
-      const attr = styleRules.length > 0 ? ` style="${styleRules.join(" ")}"` : "";
+      const attr =
+        styleRules.length > 0 ? ` style="${styleRules.join(" ")}"` : "";
       return `<div${attr}>${parseInlineMarkdown(rawBodyText)}</div>`;
     }
   }
@@ -313,8 +374,8 @@ const cm = CodeMirror.fromTextArea(dslTextarea, {
   matchBrackets: true,
   tabSize: 2,
   extraKeys: {
-    Tab: (cmInstance) => cmInstance.replaceSelection("  ")
-  }
+    Tab: (cmInstance) => cmInstance.replaceSelection("  "),
+  },
 });
 
 requestAnimationFrame(() => {
@@ -361,7 +422,7 @@ function downloadHTML() {
 
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  
+
   link.download = "quill-mail.html";
 
   document.body.appendChild(link);
@@ -373,25 +434,32 @@ function downloadHTML() {
 function copyToClipboard() {
   if (!generatedHTML) return;
 
-  navigator.clipboard.writeText(generatedHTML).then(() => {
-    // Select whichever copy button is currently present/rendered
-    const btn = document.getElementById("copy-code-btn") || document.getElementById("copy-btn");
-    if (btn) {
-      btn.classList.add("is-copied");
-      setTimeout(() => btn.classList.remove("is-copied"), 2000);
-    }
-  }).catch(err => {
-    console.error("Failed to copy code: ", err);
-  });
+  navigator.clipboard
+    .writeText(generatedHTML)
+    .then(() => {
+      // Select whichever copy button is currently present/rendered
+      const btn =
+        document.getElementById("copy-code-btn") ||
+        document.getElementById("copy-btn");
+      if (btn) {
+        btn.classList.add("is-copied");
+        setTimeout(() => btn.classList.remove("is-copied"), 2000);
+      }
+    })
+    .catch((err) => {
+      console.error("Failed to copy code: ", err);
+    });
 }
 
 /* ---- Documentation modal ---- */
 
 const docsModal = document.getElementById("docs-modal");
-document.getElementById("docs-btn").addEventListener("click", () => docsModal.showModal());
-document.getElementById("docs-close").addEventListener("click", () => docsModal.close());
-
-
+document
+  .getElementById("docs-btn")
+  .addEventListener("click", () => docsModal.showModal());
+document
+  .getElementById("docs-close")
+  .addEventListener("click", () => docsModal.close());
 
 let isDarkModePreview = false;
 
@@ -440,14 +508,12 @@ function applyDarkModeToIframe() {
   }
 }
 
-
 const originalUpdateOutput = updateOutput;
 updateOutput = function () {
   originalUpdateOutput();
 
   setTimeout(applyDarkModeToIframe, 50);
 };
-
 
 async function copyRenderedHTML() {
   if (!generatedHTML) return;
@@ -476,13 +542,16 @@ async function copyRenderedHTML() {
 function copyRawHTML() {
   if (!generatedHTML) return;
 
-  navigator.clipboard.writeText(generatedHTML).then(() => {
-    const btn = document.getElementById("copy-code-btn");
-    if (btn) {
-      btn.classList.add("is-copied");
-      setTimeout(() => btn.classList.remove("is-copied"), 2000);
-    }
-  }).catch(err => {
-    console.error("Failed to copy raw HTML: ", err);
-  });
+  navigator.clipboard
+    .writeText(generatedHTML)
+    .then(() => {
+      const btn = document.getElementById("copy-code-btn");
+      if (btn) {
+        btn.classList.add("is-copied");
+        setTimeout(() => btn.classList.remove("is-copied"), 2000);
+      }
+    })
+    .catch((err) => {
+      console.error("Failed to copy raw HTML: ", err);
+    });
 }

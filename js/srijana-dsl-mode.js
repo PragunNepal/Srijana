@@ -18,7 +18,7 @@ CodeMirror.defineSimpleMode("cmitdsl", { // Matches mode: "cmitdsl" in your comp
     { regex: /\b\d+(?:px|em|rem|%)?\b/, token: "number" },
 
     // Block Declarations: p {, list {, ul {, ol {, img {, div {, div {}
-    { regex: /\b(p|ul|ol|list|img|div|quote)\b(?=\s*\{)/, token: "tag" },
+    { regex: /\b(p|ul|ol|list|img|div|quote|btn|button)\b(?=\s*\{)/, token: "tag" },
 
     // Braces
     { regex: /[\{\}]/, token: "bracket" },
@@ -27,6 +27,7 @@ CodeMirror.defineSimpleMode("cmitdsl", { // Matches mode: "cmitdsl" in your comp
     { regex: /\*\*.*?\*\*/, token: "strong" },
     { regex: /\*.*?\*/, token: "em" },
     { regex: /\[.*?\]\(.*?\)/, token: "link" }
+
   ],
   meta: {
     lineComment: "//"
