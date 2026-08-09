@@ -3,14 +3,10 @@
     <!-- <img src="assets/anvesha_footer_wo.png"></img> -->
 </div>
 
-<div style="text-align: center">
-    <h1>
-        <strong>SRIJANA</strong>
-    <br>
-        <i><small style="font-size: 15px;">
-            From CMIT, For Anvesha
-        </i></small>
-    </h1>
+<div align='center'>
+<h1>SRIJANA</h1>
+<p>From CMIT, For Anvesha.</p>
+<br><br>
 </div>
 
 **[Srijana](https://pragunnepal.github.io/Srijana)** is a lightweight, web-based email compiler designed to streamline the creation of clean, email-compliant HTML newsletters and mailers, based on [Quill from CMIT](https://cmit.iisertvm.ac.in/quill). Instead of wrestling with complex nested HTML tables and inline CSS bugs across different email clients, Srijana lets you write using a human-readable, block-based **Domain-Specific Language (DSL)** that compiles into email-safe HTML on the fly.
@@ -232,4 +228,4 @@ cd Srijana/
 
 ---
 
-Developed by [**CMIT**](https://cmit.iisertvm.ac.in) for **Anvesha 2026**.
+Based on **[Quill](https://cmit.iisertvm.ac.in/quill)** developed by [AK](https://akwastaken.github.io).
