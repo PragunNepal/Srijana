@@ -46,11 +46,14 @@ body.mailgen-page {
   border-bottom: 1px solid var(--line);
 }
 .tool-header .eyebrow {
-  margin: 0 0 0.15rem;
-}
-.tool-title {
-  font-size: 1.4rem;
   margin: 0;
+}
+.tool-header .tool-title {
+  display: inline-block;
+  font-family: var(--logo-font);
+  color: var(--moss-deep);
+  font-size: 1.4rem;
+  margin-bottom: -0.6rem;
 }
 
 .tool-actions {
