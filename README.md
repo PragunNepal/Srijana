@@ -39,130 +39,15 @@ Srijana parses input text blocks and compiles them into inline-styled, table-bas
 
 ## Sending the HTML Mails
 
-Standard email compose windows will not allow you to type raw HTML directly, so use one of the methods below to send mails.
-
 > **WARNING**: PLEASE CONFIRM THE CONTENT WITH THE COORDINATORS OR PEOPLE IN CHARGE, BEFORE SENDING ANY MAILS.
 
----
-
-### Method 1: Direct Clipboard Copy-Paste (Simplest)
-
-1. In Srijana, make sure your input script compiled properly in the **Visual Preview** tab.
-2. Click the **Copy Icon** in the top action header (NOT the copy icon at the bottom of **Raw Html Code** tab) to copy the rendered HTML onto your clipboard.
-3. Open a new email draft in **Gmail**, **Outlook 365**, or **Apple Mail**.
-4. Click inside the message body and paste.
-
-Voila!
-
----
-
-### Method 2: Gmail Developer Tools (For Raw Code Injection)
-
-> **Instructions might differ based on the browser and the Operating System.**
-
-1. In Srijana, switch to the **Raw HTML Code** tab and click **Copy Icon** at the bottom right of the section.
-2. Open a new email draft in **Gmail** and type a unique placeholder word like `XYZ123` in the message body.
-3. Highlight `XYZ123`, right-click it, and select **Inspect**.
-4. In the Chrome DevTools panel that pops up, right-click the highlighted code node containing `XYZ123` and select **Edit as HTML**.
-5. Replace `XYZ123` by pasting your entire raw HTML code snippet from Srijana into that field.
-6. Click anywhere outside the code window in DevTools to view your rendered email template directly inside the Gmail editor.
-
----
-
-### Method 3: Browser Extensions & Native Clients
-
-If you frequently send HTML mails, use a dedicated browser extension or email desktop to speed up the workflow.
-
-* Install ANY GMail HTML-Editor Chrome extension. It adds a **HTML Editor** icon inside your Gmail compose bar, allowing you to paste your raw HTML code directly into a popup tab.
-* **Mozilla Thunderbird:** Download the free Thunderbird Mail Client. When composing an email, select **Insert > HTML** from the top menu and paste your raw HTML output directly.
-
+Check out the [WIKI](https://github.com/PragunNepal/Srijana/wiki/Sending-HTML-Mails) for more information.
 
 ---
 
 ## Syntax Guide
 
-### 1. Global Directives
-
-Set the subject line or template header variable:
-
-```text
-.title: Anvesha - Science & Tech Fest 2026
-
-```
-
-### 2. Paragraph Block (`p`)
-
-Generates an email-safe text block with optional custom typography properties:
-
-```text
-p {
-  Greetings from Anvesha! We are thrilled to announce our flagship event.
-}
-.color: #333333
-.font-size: 16px
-.line-height: 1.5
-
-```
-
-> _Tip: Add `.pre: true` below a paragraph block to preserve exact line breaks and indentation._
-
-### 3. Lists (`list`, `ul`, `ol`)
-
-Supports unordered and ordered lists with full inline formatting:
-
-```text
-list {
-  * **Date:** 31 October 2026
-  * **Venue:** Indoor Stadium
-  * **Entry:** Free for all students
-}
-.list-style: none
-.margin: 20px 0
-
-```
-
-### 4. Buttons (`btn`, `button`)
-
-Creates an inline, bulletproof clickable button:
-
-```text
-btn {
-  Register Now
-}
-.url: https://sites.iisertvm.ac.in/stc
-.bg-color: #0066cc
-.color: #ffffff
-
-```
-
-### 5. Images (`img`) & Dividers (`div`)
-
-Renders auto-centered, responsive graphic blocks and structural dividers:
-
-```text
-img {
-  [https://raw.githubusercontent.com/PragunNepal/Srijana/main/assets/banner.png](https://raw.githubusercontent.com/PragunNepal/Srijana/main/assets/banner.png)
-}
-.width: 100%
-.alt: Event Banner
-
-div {}
-.border-top: 1px dashed #cccccc
-.margin: 25px 0
-
-```
-
----
-
-## Inline Formatting Reference
-
-Inside text-bearing blocks (`p`, `list`, `ul`, `ol`), standard Markdown-style inline formatting is supported:
-
-| Format                                           | Syntax             | Output                                                                 |
-| ------------------------------------------------ | ------------------ | ---------------------------------------------------------------------- |
-| **Bold**                                         | `**text**`         | **text**                                                               |
-| _Italic_                                         | `*text*`           | _text_                                                                 |
-| [Hyperlink](https://www.google.com/search?q=url) | `[Link Text](url)` | Automatically appends `https://` if missing and sets `target="_blank"` |
+Refer to the [WIKI](https://github.com/PragunNepal/Srijana/wiki) for more information.
 
 ---
 
