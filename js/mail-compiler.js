@@ -104,14 +104,20 @@ ul {
 .color: #7f8c8d
 .font-size: 13px
 
-// Closing Paragraph
+
+
+//
+// Closing Paragraph. KEEP THIS IN THE FINAL MAIL.
+//
+
 p {
-  For more information or inquiries, feel free to reach out to the [Srijana Team](mailto:pragun23@iisertvm.ac.in) or the [Science & Technology Council of IISER Thiruvananthapuram](mailto:stc@iisertvm.ac.in).
+  HTML mail made using [Srijana](https://github.com/PragunNepal/Srijana).
 }
 .align: center
 .color: #888888
 .font-size: 12px
-.margin: 30px 0 10px 0`;
+.margin: 30px 0 10px 0
+`;
 
 let generatedHTML = "";
 
