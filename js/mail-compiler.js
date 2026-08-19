@@ -111,6 +111,23 @@ ul {
 //
 
 p {
+  For more information or inquiries, feel free to reach out to the [Science & Technology Council of IISER Thiruvananthapuram](mailto:stc@iisertvm.ac.in).
+}
+.align: center
+.color: #888888
+.font-size: 12px
+.margin: 30px 0 10px 0
+
+p {
+  Mail Credits : Khirabdhi Tanaya (B24), Prerana Sarma (B25) &  Pragun Nepal (B23)
+}
+.align: center
+.color: #888888
+.font-size: 12px
+.margin: 30px 0 2px 0
+
+
+p {
   HTML mail made using [Srijana](https://github.com/PragunNepal/Srijana).
 }
 .align: center
