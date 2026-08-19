@@ -124,7 +124,7 @@ p {
 .align: center
 .color: #888888
 .font-size: 12px
-.margin: 30px 0 2px 0
+.margin: 10px 0 2px 0
 
 
 p {
@@ -133,7 +133,7 @@ p {
 .align: center
 .color: #888888
 .font-size: 12px
-.margin: 30px 0 10px 0
+.margin: 10px 0 10px 0
 `;
 
 let generatedHTML = "";
