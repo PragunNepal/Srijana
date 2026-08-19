@@ -116,7 +116,7 @@ p {
 .align: center
 .color: #888888
 .font-size: 12px
-.margin: 30px 0 10px 0
+.margin: 30px 0 8px 0
 
 p {
   Mail Credits : Khirabdhi Tanaya (B24), Prerana Sarma (B25) &  Pragun Nepal (B23)
@@ -124,7 +124,7 @@ p {
 .align: center
 .color: #888888
 .font-size: 12px
-.margin: 10px 0 2px 0
+.margin: 8px 0 2px 0
 
 
 p {
@@ -133,7 +133,7 @@ p {
 .align: center
 .color: #888888
 .font-size: 12px
-.margin: 10px 0 10px 0
+.margin: 9px 0 10px 0
 `;
 
 let generatedHTML = "";
