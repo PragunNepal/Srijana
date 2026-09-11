@@ -26,7 +26,7 @@
 
 ## Working
 
-Srijana parses input text blocks and compiles them into inline-styled, table-based HTML wrappers guaranteed to render reliably across desktop and mobile email clients (including Gmail and Outlook).
+Srijana parses input text blocks and compiles them into inline-styled, table-based HTML wrappers, guaranteed to render reliably across desktop and mobile email clients (including Gmail and Outlook).
 
 ### General Syntax Rules
 
