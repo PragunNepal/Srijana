@@ -814,6 +814,131 @@ dialog#docs-modal::backdrop {
   border-right: 1px solid var(--line, #ccc);
 }
 
+/* Step 4 Centered Overlay Window */
+.tour-modal-step {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.tour-modal-step.active-step {
+  display: flex;
+}
+
+.rules-modal {
+  background-color: var(--card, #ffffff);
+  border: 1px solid var(--line, #e2dfd2);
+  border-top: 5px solid #b31d28; /* Warning red accent line */
+  border-radius: 8px;
+  max-width: 620px;
+  width: 100%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  animation: modalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rules-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line, #e2dfd2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rules-title {
+  margin: 0;
+  font-family: var(--font-head, serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #b31d28;
+}
+
+.rules-body {
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+}
+
+.rules-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.rules-list li {
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink, #262a2e);
+}
+
+.rules-list strong {
+  color: #1a1a1a;
+}
+
+.rules-list kbd {
+  display: inline-block;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.75rem;
+  font-family: ui-monospace, monospace;
+  background-color: var(--moss-wash, #f1efe9);
+  border: 1px solid var(--line, #ccc);
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.rules-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--line, #e2dfd2);
+  background-color: var(--paper, #fbfaf7);
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 0 0 8px 8px;
+}
+
+.rules-ack-btn {
+  background-color: var(--moss-deep, #5c7a63);
+  color: #ffffff;
+  border: none;
+  font-family: var(--font-body, inherit);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.65rem 1.25rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.rules-ack-btn:hover {
+  filter: brightness(0.92);
+}
+
+.rules-ack-btn:active {
+  transform: scale(0.99);
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @keyframes popoverFadeIn {
   from {
     opacity: 0;
@@ -822,5 +947,48 @@ dialog#docs-modal::backdrop {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 450px) {
+  /* On mobile, popovers are fixed relative to the screen so they NEVER clip */
+  .tour-popover {
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    width: auto !important; /* Spans full screen width minus margins */
+    max-width: none !important;
+  }
+
+  /* Popover 1 & 2 drop right below the header actions */
+  .popover-docs,
+  .popover-copy {
+    top: 65px !important;
+    bottom: auto !important;
+  }
+
+  /* Popover 3 floats above the bottom-right dark mode button */
+  .popover-dark {
+    bottom: 70px !important;
+    top: auto !important;
+  }
+
+  /* Reset arrow default anchors so JS can slide it horizontally */
+  .tour-arrow {
+    right: auto !important;
+  }
+
+  .tour-title-large {
+    font-size: 2.2rem;
+  }
+
+  .rules-modal {
+    max-height: 90vh;
+  }
+  .rules-title {
+    font-size: 1.25rem;
+  }
+  .rules-list li {
+    font-size: 0.82rem;
   }
 }

@@ -47,7 +47,7 @@
   </head>
 
   <body class="mailgen-page">
-
+    <!-- Backdrop Overlay -->
     <div id="tour-overlay" class="tour-overlay"></div>
 
     <main class="tool-main">
@@ -58,6 +58,7 @@
         </div>
 
         <div class="tool-actions">
+          <!-- STEP 1: Documentation -->
           <div class="tour-target-wrapper" id="tour-step-1">
             <button class="btn-tool" id="docs-btn" type="button">
               <img
@@ -95,7 +96,7 @@
                 Read the documentation before composing the mail to send.
               </p>
               <div class="tour-footer">
-                <span class="tour-step-counter">1 / 3</span>
+                <span class="tour-step-counter">1 / 4</span>
                 <button class="tour-next-btn" type="button">Next &rarr;</button>
               </div>
             </div>
@@ -110,6 +111,7 @@
             <img src="icons/download.svg" alt="Download Icon" class="ux-icon" />
           </button>
 
+          <!-- STEP 2: Copy Rendered HTML -->
           <div class="tour-target-wrapper" id="tour-step-2">
             <button
               class="btn-tool"
@@ -123,7 +125,7 @@
             <div class="tour-popover popover-copy">
               <div class="tour-arrow arrow-top-right"></div>
               <div class="tour-header">
-                <span class="tour-title-small">Formatted HTML</span>
+                <span class="tour-title-small">Rendered HTML</span>
                 <button
                   class="tour-close-btn"
                   type="button"
@@ -149,7 +151,7 @@
                 mail app without formatting issues.
               </p>
               <div class="tour-footer">
-                <span class="tour-step-counter">2 / 3</span>
+                <span class="tour-step-counter">2 / 4</span>
                 <button class="tour-next-btn" type="button">Next &rarr;</button>
               </div>
             </div>
@@ -158,14 +160,12 @@
       </div>
 
       <div class="workspace">
-
         <div class="pane editor-pane">
           <div class="pane-header"><span>Input Script</span></div>
           <div class="pane-body">
             <textarea id="dsl-input"></textarea>
           </div>
         </div>
-
 
         <div class="pane preview-pane">
           <div class="pane-header">
@@ -189,6 +189,7 @@
             <iframe id="html-preview"></iframe>
             <pre class="code-view" id="html-code"></pre>
 
+            <!-- STEP 3: Dark Mode Toggle -->
             <div
               class="tour-target-wrapper floating-dark-wrapper"
               id="tour-step-3"
@@ -236,8 +237,10 @@
                   dark mode enabled.
                 </p>
                 <div class="tour-footer">
-                  <span class="tour-step-counter">3 / 3</span>
-                  <button class="tour-done-btn" type="button">Got it!</button>
+                  <span class="tour-step-counter">3 / 4</span>
+                  <button class="tour-next-btn" type="button">
+                    Next &rarr;
+                  </button>
                 </div>
               </div>
             </div>
@@ -256,6 +259,65 @@
         </div>
       </div>
     </main>
+
+    <!-- STEP 4: CENTERED CHILDPROOF WARNING MODAL -->
+    <div id="tour-step-4" class="tour-modal-step">
+      <div class="rules-modal">
+        <div class="rules-header">
+          <h2 class="rules-title">INSTRUCTIONS</h2>
+          <span class="tour-step-counter">4 / 4</span>
+        </div>
+
+        <div class="rules-body">
+          <ul class="rules-list">
+            <li>
+              <strong>Do not touch the raw HTML on your own.</strong> Trying to
+              make it look better manually will almost certainly make it worse.
+            </li>
+            <li>
+              <strong
+                >Do not download the HTML and scrape-copy it from a browser
+                window.</strong
+              >
+              Opening the file in a browser, selecting everything
+              (<kbd>Ctrl/Cmd</kbd>+<kbd>A</kbd>), and copying breaks crucial layout
+              and styling rules. Use the <em>Copy</em> button provided in this
+              tool instead.
+            </li>
+            <li>
+              <strong>Do not change the background colors in HTML.</strong> If
+              you must, check with your higher-ups first. If approved, test-send
+              it to your own email address to check how iOS Gmail auto-inverts
+              it. Many custom colors look unreadable or broken when inverted.
+            </li>
+            <li>
+              <strong>Leave the default font sizes and colors alone.</strong>
+              What looks okay on your single display will look broken, cramped,
+              or oversized on mobile screens. The defaults are already
+              optimised for many devices.
+            </li>
+            <li>
+              If you are <strong>“AI-sloppifying”</strong> your email content,
+              at least edit it so it sounds like a real human wrote it.
+            </li>
+            <li>
+              If you are using an LLM to generate templates for this tool
+              <em>(first of all, why? This syntax is relatively easy to learn)</em>,
+              copy the entire documentation (<kbd>Ctrl/Cmd</kbd>+<kbd>A</kbd>), feed
+              it to the model alongside your draft, and tell it to format
+              its output into the tool's language (DSL). Do not paste LLM-generated HTML
+              here.
+            </li>
+          </ul>
+        </div>
+
+        <div class="rules-footer">
+          <button id="rules-ack-btn" class="rules-ack-btn" type="button">
+            I understand and I have read all of the above
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Documentation modal -->
     <dialog id="docs-modal">
