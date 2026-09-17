@@ -11,8 +11,7 @@ fetch("template.html")
   })
   .catch((err) => console.error("Error loading template:", err));
 
-const defaultDSL = `
-// Global Directives
+const defaultDSL = `// Global Directives
 .title: Complete Feature & Testing Overview
 
 // Banner / Image Block / Poster Block
@@ -162,6 +161,13 @@ function compileEmailTemplate(dslInput) {
   let blocks = [];
   let currentBlock = null;
 
+  const DEFAULT_BANNER =
+    "https://raw.githubusercontent.com/PragunNepal/Srijana/refs/heads/main/assets/anvesha_header.png";
+  let banner = DEFAULT_BANNER;
+
+  const DEFAULT_GREETINGS = "Greetings from Anvesha!";
+  let greetings = DEFAULT_GREETINGS;
+
   for (let i = 0; i < lines.length; i++) {
     const rawLine = lines[i];
     const line = rawLine.trim();
@@ -172,6 +178,20 @@ function compileEmailTemplate(dslInput) {
 
     if (line.startsWith(".title:") && !currentBlock) {
       title = line.substring(7).trim();
+      continue;
+    }
+
+    if (line.startsWith(".greetings:") && !currentBlock) {
+      greetings = line.substring(11).trim();
+      continue;
+    }
+
+    if (line.startsWith(".banner:") && !currentBlock) {
+      let url = line.substring(8).trim();
+      if (url && !/^https?:\/\//i.test(url)) {
+        url = "https://" + url;
+      }
+      banner = url || DEFAULT_BANNER;
       continue;
     }
 
@@ -212,6 +232,8 @@ function compileEmailTemplate(dslInput) {
   const renderedContent = blocks.map(renderBlock).join("\n\n");
 
   return templateHTML
+    .replace("${Banner}", banner)
+    .replace("${Greetings}", greetings)
     .replace("${Title}", title)
     .replace("${Content}", renderedContent);
 }

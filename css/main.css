@@ -629,3 +629,198 @@ dialog#docs-modal::backdrop {
 .floating-copy-code:active {
   transform: translateY(0);
 }
+
+
+
+
+
+
+
+
+
+/* ========================================================
+   GUIDED TOUR / POPOVER SYSTEM
+   ======================================================== */
+
+.tour-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(38, 42, 46, 0.45);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 998;
+}
+
+.tour-target-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.tour-target-wrapper.active-step {
+  z-index: 999;
+}
+
+.floating-dark-wrapper {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+.floating-dark-wrapper .floating-dark-toggle {
+  position: static; 
+}
+
+.tour-popover {
+  display: none;
+  position: absolute;
+  background-color: var(--card);
+  /* border: 1px solid var(--card); */
+  box-shadow: 0 12px 30px rgba(38, 42, 46, 0.22);
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  box-sizing: border-box;
+  animation: popoverFadeIn 0.2s ease-out;
+}
+
+.tour-target-wrapper.active-step .tour-popover {
+  display: block;
+}
+
+.popover-docs {
+  width: 290px;
+  top: calc(100% + 12px);
+  right: 0;
+}
+
+.popover-copy {
+  width: 260px;
+  top: calc(100% + 12px);
+  right: 0;
+}
+
+.popover-dark {
+  width: 260px;
+  bottom: calc(100% + 14px);
+  right: 0;
+}
+
+.tour-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.tour-title-large {
+  font-family: var(--font-head, serif);
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--moss-deep, #5c7a63);
+  line-height: 0.95;
+  margin: 0;
+}
+
+.tour-title-small {
+  font-family: var(--font-head, serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--moss-deep, #5c7a63);
+  line-height: 1.2;
+}
+
+.tour-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--muted, #6a737d);
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.tour-close-btn:hover {
+  color: var(--moss-deep, #5c7a63);
+  background-color: var(--moss-wash, rgba(0, 0, 0, 0.04));
+}
+
+.tour-desc {
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ink, #262a2e);
+  margin: 0 0 0.75rem 0;
+}
+
+.tour-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line, #e2dfd2);
+  padding-top: 0.6rem;
+  margin-top: 0.2rem;
+}
+
+.tour-step-counter {
+  font-size: 0.72rem;
+  color: var(--muted, #6a737d);
+  font-family: ui-monospace, monospace;
+}
+
+.tour-next-btn,
+.tour-done-btn {
+  background-color: var(--moss-deep, #5c7a63);
+  color: #ffffff;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.tour-next-btn:hover,
+.tour-done-btn:hover {
+  opacity: 0.9;
+}
+
+.tour-arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--card, #ffffff);
+  transform: rotate(45deg);
+}
+
+.arrow-top-right {
+  top: -5px;
+  right: 12px;
+  border-top: 1px solid var(--line, #ccc);
+  border-left: 1px solid var(--line, #ccc);
+}
+
+.arrow-bottom-right {
+  bottom: -5px;
+  right: 14px;
+  border-bottom: 1px solid var(--line, #ccc);
+  border-right: 1px solid var(--line, #ccc);
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

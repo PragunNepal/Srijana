@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="css/main.css" defer />
     <link rel="stylesheet" href="css/preloader.css" defer />
 
-    <link rel="icon" href="favicon.png" type="image/png" sizes="33x33">
-    <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="any">
+    <link rel="icon" href="favicon.png" type="image/png" sizes="33x33" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="any" />
 
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"
       defer
-    ></script>   
+    ></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/mode/simple.min.js"
       defer
@@ -29,6 +29,7 @@
     ></script>
     <script src="js/srijana-dsl-mode.js" defer></script>
     <script src="js/mail-compiler.js" defer></script>
+    <script src="js/doc-popup.js" defer></script>
 
     <link
       rel="stylesheet"
@@ -44,8 +45,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"
     />
   </head>
+
   <body class="mailgen-page">
-    <!-- PRELOADER -->
+
+    <div id="tour-overlay" class="tour-overlay"></div>
 
     <main class="tool-main">
       <div class="tool-header">
@@ -53,39 +56,109 @@
           <h1 class="tool-title">SRIJANA</h1>
           <p class="eyebrow"><small>From CMIT, For Anvesha</small></p>
         </div>
+
         <div class="tool-actions">
-          <button class="btn-tool" id="docs-btn" type="button">
-            <img
-              src="icons/info.svg"
-              alt="Documentation Icon"
-              class="ux-icon"
-            />
-          </button>
+          <div class="tour-target-wrapper" id="tour-step-1">
+            <button class="btn-tool" id="docs-btn" type="button">
+              <img
+                src="icons/info.svg"
+                alt="Documentation Icon"
+                class="ux-icon"
+              />
+            </button>
+
+            <div class="tour-popover popover-docs">
+              <div class="tour-arrow arrow-top-right"></div>
+              <div class="tour-header">
+                <span class="tour-title-large">PLEASE</span>
+                <button
+                  class="tour-close-btn"
+                  type="button"
+                  aria-label="Dismiss tour"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <p class="tour-desc">
+                Read the documentation before composing the mail to send.
+              </p>
+              <div class="tour-footer">
+                <span class="tour-step-counter">1 / 3</span>
+                <button class="tour-next-btn" type="button">Next &rarr;</button>
+              </div>
+            </div>
+          </div>
+
           <button
             class="btn-tool"
             id="download-btn"
             type="button"
             onclick="downloadHTML()"
           >
-            <img
-              src="icons/download.svg"
-              alt="Download Icon"
-              class="ux-icon"
-            />
+            <img src="icons/download.svg" alt="Download Icon" class="ux-icon" />
           </button>
-          <button
-            class="btn-tool"
-            id="copy-btn"
-            type="button"
-            onclick="copyRenderedHTML()"
-          >
-            <img src="icons/copy.svg" alt="Copy Icon" class="ux-icon" />
-          </button>
+
+          <div class="tour-target-wrapper" id="tour-step-2">
+            <button
+              class="btn-tool"
+              id="copy-btn"
+              type="button"
+              onclick="copyRenderedHTML()"
+            >
+              <img src="icons/copy.svg" alt="Copy Icon" class="ux-icon" />
+            </button>
+
+            <div class="tour-popover popover-copy">
+              <div class="tour-arrow arrow-top-right"></div>
+              <div class="tour-header">
+                <span class="tour-title-small">Formatted HTML</span>
+                <button
+                  class="tour-close-btn"
+                  type="button"
+                  aria-label="Dismiss tour"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <p class="tour-desc">
+                Copies the rendered HTML. You can directly paste it into your
+                mail app without formatting issues.
+              </p>
+              <div class="tour-footer">
+                <span class="tour-step-counter">2 / 3</span>
+                <button class="tour-next-btn" type="button">Next &rarr;</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="workspace">
-        <!-- INPUT EDITOR -->
+
         <div class="pane editor-pane">
           <div class="pane-header"><span>Input Script</span></div>
           <div class="pane-body">
@@ -93,7 +166,7 @@
           </div>
         </div>
 
-        <!-- PREVIEW & CODE PANE -->
+
         <div class="pane preview-pane">
           <div class="pane-header">
             <span>Output</span>
@@ -116,19 +189,58 @@
             <iframe id="html-preview"></iframe>
             <pre class="code-view" id="html-code"></pre>
 
-            <button
-              class="btn-tool floating-dark-toggle"
-              id="toggle-dark-mode-btn"
-              type="button"
-              onclick="toggleDarkModePreview()"
-              title="Preview iOS Gmail Dark Mode"
+            <div
+              class="tour-target-wrapper floating-dark-wrapper"
+              id="tour-step-3"
             >
-              <img
-                src="icons/light_mode.svg"
-                alt="Dark Mode Icon"
-                class="ux-icon"
-              />
-            </button>
+              <button
+                class="btn-tool floating-dark-toggle"
+                id="toggle-dark-mode-btn"
+                type="button"
+                onclick="toggleDarkModePreview()"
+                title="Preview iOS Gmail Dark Mode"
+              >
+                <img
+                  src="icons/light_mode.svg"
+                  alt="Dark Mode Icon"
+                  class="ux-icon"
+                />
+              </button>
+
+              <div class="tour-popover popover-dark">
+                <div class="tour-arrow arrow-bottom-right"></div>
+                <div class="tour-header">
+                  <span class="tour-title-small">Dark Mode Preview</span>
+                  <button
+                    class="tour-close-btn"
+                    type="button"
+                    aria-label="Dismiss tour"
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+                <p class="tour-desc">
+                  Use this to test how the email will look on iOS devices with
+                  dark mode enabled.
+                </p>
+                <div class="tour-footer">
+                  <span class="tour-step-counter">3 / 3</span>
+                  <button class="tour-done-btn" type="button">Got it!</button>
+                </div>
+              </div>
+            </div>
 
             <button
               class="btn-tool floating-copy-code"
@@ -138,11 +250,7 @@
               title="Copy HTML Code"
               style="display: none"
             >
-              <img
-                src="icons/copy.svg"
-                alt="Copy Icon"
-                class="ux-icon"
-              />
+              <img src="icons/copy.svg" alt="Copy Icon" class="ux-icon" />
             </button>
           </div>
         </div>
@@ -154,11 +262,7 @@
       <div class="docs-header">
         <h2>Documentation</h2>
         <button class="btn-tool" id="docs-close" type="button">
-          <image
-            src="icons/close.svg"
-            alt="Close Icon"
-            class="ux-icon"
-          />
+          <image src="icons/close.svg" alt="Close Icon" class="ux-icon" />
         </button>
       </div>
       <div class="docs-body">
@@ -302,8 +406,8 @@
 
         <h4>5. Button Block (<code>btn</code>, <code>button</code>)</h4>
         <p>
-          Renders a responsive button tag. Pass the button text as the content body
-          inside the braces:
+          Renders a responsive button tag. Pass the button text as the content
+          body inside the braces:
         </p>
         <pre><code>btn {
   Register Now
@@ -312,8 +416,9 @@
 .bg-color: #0066cc
 .color: #ffffff</code></pre>
         <p>
-          Pass the URL without quotation marks. The button will automatically render as a clickable link.
-        </p>  
+          Pass the URL without quotation marks. The button will automatically
+          render as a clickable link.
+        </p>
 
         <!-- 5. ALL AVAILABLE PROPERTIES & STYLES -->
         <h3>Property Modifiers Reference</h3>
