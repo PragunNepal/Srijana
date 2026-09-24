@@ -277,12 +277,32 @@ function renderBlock(block) {
         imgUrl = "https://" + imgUrl;
       }
 
+      // Content area is 744px total minus (45px left + 45px right padding) = 654px
+      const CONTENT_MAX_WIDTH = 654;
+      let targetWidth = "100%";
+      let targetMaxWidth = `${CONTENT_MAX_WIDTH}px`;
+
+      if (props["width"]) {
+        const rawVal = props["width"].trim();
+        if (rawVal.endsWith("%")) {
+          const pct = parseFloat(rawVal) / 100;
+          const calcPixels = Math.round(CONTENT_MAX_WIDTH * pct);
+          targetWidth = `${calcPixels}px`;
+          targetMaxWidth = `${calcPixels}px`;
+        } else if (rawVal.endsWith("px")) {
+          targetWidth = rawVal;
+          targetMaxWidth = rawVal;
+        } else {
+          targetWidth = rawVal;
+        }
+      }
+
       const imgStyleRules = [
         "display: block;",
-        "width: 80%;",
-        "max-width: 100%;",
+        `width: ${targetWidth};`,
+        `max-width: ${targetMaxWidth};`,
         "height: auto;",
-        "border: 0;",
+        "border: 0px;",
       ];
 
       if (props["align"] === "center") {
@@ -291,7 +311,6 @@ function renderBlock(block) {
         imgStyleRules.push("margin-left: auto;", "margin-right: 0;");
       }
 
-      if (props["width"]) imgStyleRules.push(`width: ${props["width"]};`);
       if (props["margin"]) imgStyleRules.push(`margin: ${props["margin"]};`);
 
       const altText = props["alt"] || "Image";
@@ -434,9 +453,45 @@ requestAnimationFrame(() => {
 
 function updateOutput() {
   generatedHTML = compileEmailTemplate(cm.getValue());
-  previewFrame.srcdoc = generatedHTML;
+
   codeContainer.textContent = generatedHTML;
+
+  const previewDoc = generatedHTML.replace(
+    "</head>",
+    `
+    <style id="preview-scaler-style">
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background-color: #ffffff;
+      }
+    </style>
+    <script>
+      function fitEmail() {
+        // Target width: 744px card + 40px outer padding = 784px total width
+        const TARGET_WIDTH = 784;
+        const availableWidth = document.documentElement.clientWidth || window.innerWidth;
+
+        if (availableWidth < TARGET_WIDTH && availableWidth > 0) {
+          const ratio = availableWidth / TARGET_WIDTH;
+          document.body.style.zoom = ratio;
+        } else {
+          document.body.style.zoom = "1";
+        }
+      }
+
+      window.addEventListener('resize', fitEmail);
+      window.addEventListener('DOMContentLoaded', fitEmail);
+      fitEmail();
+    </script>
+    </head>`
+  );
+
+  previewFrame.srcdoc = previewDoc;
 }
+
+
+
 
 cm.setValue(defaultDSL);
 cm.on("change", updateOutput);
@@ -585,7 +640,7 @@ async function copyRenderedHTML() {
       }),
     ]);
 
-    const btn = document.getElementById("copy-rendered-btn");
+    const btn = document.getElementById("copy-btn");
     if (btn) {
       btn.classList.add("is-copied");
       setTimeout(() => btn.classList.remove("is-copied"), 2000);
@@ -594,6 +649,8 @@ async function copyRenderedHTML() {
     console.error("Failed to copy rendered GUI: ", err);
   }
 }
+
+
 
 function copyRawHTML() {
   if (!generatedHTML) return;
