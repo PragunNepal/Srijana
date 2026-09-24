@@ -279,6 +279,7 @@ function renderBlock(block) {
 
       const imgStyleRules = [
         "display: block;",
+        "width: 80%;",
         "max-width: 100%;",
         "height: auto;",
         "border: 0;",
@@ -303,6 +304,10 @@ function renderBlock(block) {
     case "p": {
       const parsedText = parseInlineMarkdown(rawBodyText);
       const preStyle = props["pre"] === "true" ? "white-space: pre-wrap;" : "";
+
+      if (!props["font-size"]) styleRules.push("font-size: 16px;");
+      if (!props["line-height"]) styleRules.push("line-height: 24px;");
+
       const combinedStyle = [styleRules.join(" "), preStyle]
         .filter(Boolean)
         .join(" ");
@@ -564,8 +569,14 @@ async function copyRenderedHTML() {
   if (!generatedHTML) return;
 
   try {
-    const htmlBlob = new Blob([generatedHTML], { type: "text/html" });
-    const textBlob = new Blob([generatedHTML], { type: "text/plain" });
+    let cleanHTML = generatedHTML;
+    const bodyMatch = generatedHTML.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+    if (bodyMatch && bodyMatch[1]) {
+      cleanHTML = bodyMatch[1].trim();
+    }
+
+    const htmlBlob = new Blob([cleanHTML], { type: "text/html" });
+    const textBlob = new Blob([cleanHTML], { type: "text/plain" });
 
     await navigator.clipboard.write([
       new ClipboardItem({
