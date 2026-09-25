@@ -137,6 +137,9 @@ p {
 
 let generatedHTML = "";
 
+// Usable inner content width: 744px total card width - (45px padding * 2) = 654px
+const CONTENT_INNER_WIDTH = 654;
+
 function parseInlineMarkdown(text) {
   return text
     .replace(/&/g, "&amp;")
@@ -151,6 +154,21 @@ function parseInlineMarkdown(text) {
       }
       return `<a href="${cleanUrl}" target="_blank" style="color: #0066cc; text-decoration: underline;">${label}</a>`;
     });
+}
+
+// Helper to convert any percentage/pixel/numeric width string to an absolute pixel integer
+function resolvePixelWidth(widthStr, baseWidth = CONTENT_INNER_WIDTH) {
+  if (!widthStr) return baseWidth;
+  const raw = String(widthStr).trim();
+  if (raw.endsWith("%")) {
+    const pct = parseFloat(raw) / 100;
+    return Math.round(baseWidth * pct);
+  }
+  if (raw.endsWith("px")) {
+    return parseInt(raw, 10);
+  }
+  const numeric = parseInt(raw, 10);
+  return !isNaN(numeric) ? numeric : baseWidth;
 }
 
 function compileEmailTemplate(dslInput) {
@@ -249,6 +267,12 @@ function renderBlock(block) {
     if (props["align"]) styleRules.push(`text-align: ${props["align"]};`);
     if (props["padding"]) styleRules.push(`padding: ${props["padding"]};`);
 
+    let divWidth = CONTENT_INNER_WIDTH;
+    if (props["width"]) {
+      divWidth = resolvePixelWidth(props["width"], CONTENT_INNER_WIDTH);
+      styleRules.push(`width: ${divWidth}px;`);
+    }
+
     const extraStyles = styleRules.length > 0 ? " " + styleRules.join(" ") : "";
     return `<div style="border-top: ${borderTop}; margin: ${margin};${extraStyles}"></div>`;
   }
@@ -277,30 +301,12 @@ function renderBlock(block) {
         imgUrl = "https://" + imgUrl;
       }
 
-      // Content area is 744px total minus (45px left + 45px right padding) = 654px
-      const CONTENT_MAX_WIDTH = 654;
-      let targetWidth = "100%";
-      let targetMaxWidth = `${CONTENT_MAX_WIDTH}px`;
-
-      if (props["width"]) {
-        const rawVal = props["width"].trim();
-        if (rawVal.endsWith("%")) {
-          const pct = parseFloat(rawVal) / 100;
-          const calcPixels = Math.round(CONTENT_MAX_WIDTH * pct);
-          targetWidth = `${calcPixels}px`;
-          targetMaxWidth = `${calcPixels}px`;
-        } else if (rawVal.endsWith("px")) {
-          targetWidth = rawVal;
-          targetMaxWidth = rawVal;
-        } else {
-          targetWidth = rawVal;
-        }
-      }
+      // Convert any percentage (e.g., 80% or 100%) into an exact, non-negotiable pixel width
+      const finalPixelWidth = resolvePixelWidth(props["width"], CONTENT_INNER_WIDTH);
 
       const imgStyleRules = [
         "display: block;",
-        `width: ${targetWidth};`,
-        `max-width: ${targetMaxWidth};`,
+        `width: ${finalPixelWidth}px;`,
         "height: auto;",
         "border: 0px;",
       ];
@@ -314,10 +320,11 @@ function renderBlock(block) {
       if (props["margin"]) imgStyleRules.push(`margin: ${props["margin"]};`);
 
       const altText = props["alt"] || "Image";
-      const imgTag = `<img src="${imgUrl}" alt="${altText}" style="${imgStyleRules.join(" ")}" />`;
+      const imgTag = `<img src="${imgUrl}" alt="${altText}" width="${finalPixelWidth}" style="${imgStyleRules.join(" ")}" />`;
 
       const textAlign = props["align"] || "left";
-      return `<div align="${textAlign}" style="text-align: ${textAlign}; width: 100%;">${imgTag}</div>`;
+      // Wrapper uses explicit pixels instead of 100% to prevent clipboard parent-box sniffing
+      return `<div align="${textAlign}" style="text-align: ${textAlign}; width: ${CONTENT_INNER_WIDTH}px;">${imgTag}</div>`;
     }
 
     case "p": {
@@ -405,7 +412,7 @@ function renderBlock(block) {
       const margin = props["margin"] || "20px 0";
 
       return `
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: ${margin};">
+<table border="0" cellpadding="0" cellspacing="0" width="${CONTENT_INNER_WIDTH}" style="width: ${CONTENT_INNER_WIDTH}px; margin: ${margin};">
   <tr>
     <td align="${alignment}">
       <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;">
@@ -490,9 +497,6 @@ function updateOutput() {
   previewFrame.srcdoc = previewDoc;
 }
 
-
-
-
 cm.setValue(defaultDSL);
 cm.on("change", updateOutput);
 
@@ -522,14 +526,10 @@ function switchTab(tab) {
 function downloadHTML() {
   if (!generatedHTML) return;
 
-  // 1. Create a Blob object containing the compiled HTML
   const blob = new Blob([generatedHTML], { type: "text/html;charset=utf-8" });
-
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-
   link.download = "quill-mail.html";
-
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -542,7 +542,6 @@ function copyToClipboard() {
   navigator.clipboard
     .writeText(generatedHTML)
     .then(() => {
-      // Select whichever copy button is currently present/rendered
       const btn =
         document.getElementById("copy-code-btn") ||
         document.getElementById("copy-btn");
@@ -616,7 +615,6 @@ function applyDarkModeToIframe() {
 const originalUpdateOutput = updateOutput;
 updateOutput = function () {
   originalUpdateOutput();
-
   setTimeout(applyDarkModeToIframe, 50);
 };
 
@@ -649,8 +647,6 @@ async function copyRenderedHTML() {
     console.error("Failed to copy rendered GUI: ", err);
   }
 }
-
-
 
 function copyRawHTML() {
   if (!generatedHTML) return;
